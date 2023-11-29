@@ -53,26 +53,6 @@ def sift_feature_extraction(image):
     result = cv2.drawKeypoints(image, keypoints, None)
     return result
 
-def surf_feature_extraction(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    surf = cv2.SURF_create()
-    keypoints, descriptors = surf.detectAndCompute(gray, None)
-    result = cv2.drawKeypoints(image, keypoints, None)
-    return result
-
-def hog_feature_extraction(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    hog = cv2.HOGDescriptor()
-    descriptors = hog.compute(gray)
-    return descriptors
-
-def gloh_feature_extraction(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    gloh = cv2.xfeatures2d.GLOH_create()
-    keypoints, descriptors = gloh.compute(gray, None)
-    result = cv2.drawKeypoints(image, keypoints, None)
-    return result
-
 # Streamlit UI
 def main():
     st.sidebar.title("Manojkumar_Feature_extraction")
@@ -85,9 +65,6 @@ def main():
 
     if uploaded_file is not None:
         image = cv2.imdecode(np.fromstring(uploaded_file.read(), np.uint8), 1)
-
-        # option = st.selectbox("Choose feature extraction method:",
-        #                     ["Canny Edge", "LOG Edge", "DOG Edge", "Hough Lines", "Harris Corner", "SIFT Feature Extraction"])
 
         st.image(image, caption="Uploaded Image", use_column_width=True)
 
@@ -113,5 +90,6 @@ def main():
             st.image(result, caption="Result", use_column_width=True)
         else:
             st.write("Selected option not implemented or produced no result.")
+
 if __name__ == "__main__":
     main()
